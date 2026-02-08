@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRC BOT WhatsApp Dah Update</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
+
+<style>
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  height:100%;
+  font-family:Ubuntu,system-ui,sans-serif;
+}
+html{
+  scroll-behavior:smooth;
+}
+body{
+  position:relative;
+  overflow-x:hidden;
+  color:#fff;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(0,0,0,.30),rgba(0,0,0,.30)),
+    url("https://i.ibb.co.com/1tN1J7wj/ba.webp") center/130% no-repeat;
+  animation:bgMove 20s ease-in-out infinite;
+  z-index:-1;
+}
+
+@keyframes bgMove{
+  0%{background-position:center;background-size:120%}
+  50%{background-position:top center;background-size:135%}
+  100%{background-position:center;background-size:120%}
+}
+
+.wrapper{
+  max-width:480px;
+  margin:auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:16px;
+}
+
+.card{
+  background:rgba(0,0,0,.65);
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 0 40px rgba(0,0,0,.7);
+  text-align:center;
+}
+
+.logo img{
+  max-width:160px;
+  margin-bottom:16px;
+}
+
+.title{
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.desc{
+  font-size:14px;
+  opacity:.9;
+  margin-bottom:18px;
+}
+
+/* MARQUEE */
+.marquee{
+  width:100%;
+  overflow:hidden;
+  white-space:nowrap;
+  border-top:1px solid rgba(255,255,255,.2);
+  border-bottom:1px solid rgba(255,255,255,.2);
+  padding:8px 0;
+  margin-bottom:20px;
+  font-size:14px;
+  color:#b6ffda;
+}
+
+.marquee-content{
+  display:inline-flex;
+  gap:1rem;
+  animation: marqueeLoop 14s linear infinite;
+}
+
+@keyframes marqueeLoop{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+.rainbow-text{
+  background: linear-gradient(
+    90deg,
+    #00ff99,   /* hijau neon */
+    #00c8ff,   /* biru */
+    #ffffff,   /* putih */
+    #ff5fa2,   /* pink */
+    #00ff99    /* balik hijau */
+  );
+  background-size:300% 300%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation: rainbowMove 6s linear infinite;
+  font-weight:700;
+}
+
+@keyframes rainbowMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.hologram-text{
+  position: relative;
+  font-weight: 800;
+  background: linear-gradient(
+    90deg,
+    #00ffcc,
+    #00c8ff,
+    #ffffff,
+    #ff5fa2,
+    #00ffcc
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: holoMove 6s linear infinite;
+  text-shadow:
+    0 0 6px rgba(0,255,204,.4),
+    0 0 14px rgba(0,200,255,.3);
+}
+
+.rainbow-dim{
+  font-weight:800;
+
+  background: linear-gradient(
+  90deg,
+  #00ff99,   /* hijau neon */
+  #ff5fa2,   /* pink neon */
+  #ffffff,   /* putih */
+  #00c8ff,   /* biru neon */
+  #00ff99    /* hijau neon (loop) */
+);
+  background-size:400% 100%;
+
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+
+  animation:
+    rainbowFlow 6s linear infinite,
+    dimDark 5s ease-in-out infinite;
+
+  text-shadow:0 0 6px rgba(255,255,255,.25);
+}
+
+@keyframes rainbowFlow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+@keyframes dimDark{
+  0%{
+    opacity:1;
+    filter:brightness(1);
+  }
+  35%{
+    opacity:.85;
+    filter:brightness(.8);
+  }
+  55%{
+    opacity:.55;
+    filter:brightness(.45);
+  }
+  70%{
+    opacity:.8;
+    filter:brightness(.75);
+  }
+  100%{
+    opacity:1;
+    filter:brightness(1);
+  }
+}
+
+.chat-box{
+  background:rgba(0,0,0,.6);
+  border-radius:16px;
+  padding:14px;
+}
+
+.chat{
+  max-width:80%;
+  padding:10px 14px;
+  margin-bottom:8px;
+  border-radius:14px;
+  font-size:13px;
+}
+
+.chat.user{
+  background:#00ff99;
+  color:#000;
+  margin-left:auto;
+}
+
+.chat.bot{
+  background:#1c1c1c;
+  border:1px solid rgba(255,255,255,.15);
+}
+
+/* Gallery */
+.gallery{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding:4px 0;
+}
+
+.gallery img{
+  width:180px;
+  border-radius:14px;
+  box-shadow:0 0 12px rgba(0,255,153,.4);
+  cursor:pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0.3s ease;
+  z-index:0;
+}
+
+.gallery img.active{
+  transform: scale(1.2);                /* gambar lebih besar */
+  box-shadow:0 0 24px rgba(0,255,153,.8); /* glow lebih kuat */
+  z-index:10;                             /* tampil di atas gambar lain */
+}
+.advantages li{
+  margin-bottom:8px;
+  font-size:14px;
+}
+.network-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.network-btn{
+  display:block;
+  padding:14px;
+  text-align:center;
+  font-weight:800;
+  text-decoration:none;
+  border-radius:14px;
+  color:#eafff7;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:0 0 10px rgba(0,0,0,.4);
+  transition:.25s ease;
+}
+
+.network-btn:hover{
+  transform:translateY(-2px);
+}
+
+.network-btn.wa{
+  border-color:rgba(0,255,153,.45);
+}
+
+.network-btn.tg{
+  border-color:rgba(0,200,255,.45);
+}
+/* BUTTON */
+.buttons{
+  display:flex;
+}
+
+.btn{
+  width:100%;
+  height:56px;
+  line-height:56px;
+  text-decoration:none;
+  color:#fff;
+  font-weight:900;
+  letter-spacing:3px;
+  border-radius:18px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* BOT TYPING LOADER */
+.typing{
+  display:inline-flex;
+  gap:4px;
+  padding:8px 12px;
+  background:#1c1c1c;
+  border-radius:14px;
+  margin-bottom:8px;
+}
+
+.typing span{
+  width:6px;
+  height:6px;
+  background:#aaa;
+  border-radius:50%;
+  animation: blink 1.4s infinite both;
+}
+
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+
+@keyframes blink{
+  0%{opacity:.2}
+  20%{opacity:1}
+  100%{opacity:.2}
+}
+
+/* NEON GREEN */
+.btn-masuk{
+  background:linear-gradient(135deg,#00ff99,#00c96b);
+  color:#ffffff; /* FIX PUTIH */
+  text-shadow:0 0 6px rgba(255,255,255,.6);
+  box-shadow:
+    0 0 10px rgba(0,255,153,.55),
+    inset 0 0 8px rgba(255,255,255,.35);
+  transition:.25s ease;
+}
+
+.btn-masuk:hover{
+  box-shadow:
+    0 0 10px rgba(0,216,138,.6),
+    inset 0 0 6px rgba(255,255,255,.3);
+}
+
+.accordion-btn{
+  width:100%;
+  margin-top:16px;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  font-weight:800;
+  font-size:15px;
+  color:#d9fff0;
+  background:rgba(0,255,153,.12);
+  border:1px solid rgba(0,255,153,.35);
+  box-shadow:0 0 10px rgba(0,255,153,.25);
+  backdrop-filter:blur(6px);
+  transition:.25s ease;
+}
+.accordion-content{
+  display:none;
+  margin-top:12px;
+  animation:fadeUp .35s ease;
+}
+
+.accordion-content.open{
+  display:block;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(6px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+@keyframes greenGlow{
+  from{
+    box-shadow:
+      0 0 7px #00ff99,
+      0 0 9px #00ff99,
+      inset 0 0 5px rgba(255,255,255,.25);
+  }
+  to{
+    box-shadow:
+      0 0 14px #00ff99,
+      0 0 16px #00ff99,
+      inset 0 0 8px rgba(255,255,255,.35);
+  }
+}
+.features{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+  margin-top:14px;
+}
+
+.feature-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  padding:14px;
+  text-align:left;
+}
+
+.feature-card h3{
+  font-size:15px;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.feature-card p{
+  font-size:13px;
+  opacity:.85;
+  line-height:1.5;
+}
+.section-title{
+  font-size:18px;
+  margin-bottom:6px;
+}
+.btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.85),
+    transparent
+  );
+  animation:shine 3s infinite;
+}
+
+@keyframes shine{
+  0%{left:-100%}
+  60%{left:100%}
+  100%{left:100%}
+}
+
+.btn:active{
+  transform:scale(.96);
+}
+
+.footer{
+  text-align:center;
+  font-size:12px;
+  opacity:.6;
+  margin-top:14px;
+}
+
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.accordion-btn:active,
+.network-btn:active,
+.btn:active{
+  transform:scale(.97);
+}
+.quick-cmd{
+  display:flex;
+  margin-bottom:10px;
+}
+
+.quick-cmd{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 tombol per baris */
+  gap: 10px;
+  margin-bottom:12px;
+}
+
+.quick-cmd button{
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  font-weight:800;
+  cursor:pointer;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.25);
+  color:#eafff7;
+  box-shadow:0 0 10px rgba(0,0,0,.4);
+  transition:.25s ease;
+}
+
+.quick-cmd button:hover{
+  transform:translateY(-2px);
+}
+
+.quick-cmd button:active{
+  transform:scale(.97);
+}
+
+/* input + button dwlagu/dwlagunm compact */
+#dwBox input{
+  grid-column: span 3; /* input ambil 3 dari 4 kolom */
+  padding:10px;
+  border-radius:12px;
+  border:none;
+  outline:none;
+}
+
+#dwBox button{
+  grid-column: span 1; /* tombol download 1 kolom */
+  background:#00ff99;
+  color:#000;
+  font-weight:800;
+}
+.tiktok-box{
+  margin-top:10px;
+  display:flex;
+  gap:8px;
+}
+/* Tiktok-box input scrollable */
+.tiktok-box input {
+  flex:1;
+  padding:10px;
+  border-radius:12px;
+  border:none;
+  outline:none;
+
+  white-space: nowrap;   /* teks 1 baris */
+  overflow-x: auto;      /* scroll horizontal */
+  scrollbar-width: thin; /* firefox */
+}
+
+/* Optional: hilangkan scrollbar di webkit */
+.tiktok-box input::-webkit-scrollbar {
+  height: 4px;
+}
+.tiktok-box input::-webkit-scrollbar-thumb {
+  background: #00ff99;
+  border-radius: 4px;
+}
+
+/* wrapper marquee untuk input */
+.tiktok-box input.marquee {
+  animation: scrollText 10s linear infinite;
+}
+
+@keyframes scrollText {
+  0%   { text-indent: 0; }
+  100% { text-indent: -100%; } /* geser teks ke kiri */
+}
+
+.tiktok-box button{  
+  padding:10px 14px;  
+  border:none;  
+  border-radius:12px;  
+  font-weight:800;  
+  background:#00ff99;  
+  color:#000;  
+}
+.tt-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:6px;
+}
+
+.tt-btn{
+  background:#111;
+  color:#fff;
+  border:1px solid #333;
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:13px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.tt-btn:active{
+  transform:scale(.95);
+}
+/* Floating Button */
+#assist-btn{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 58px;
+  height: 58px;
+  background: linear-gradient(135deg,#00c8ff,#6cffb1);
+  color: #000;
+  font-size: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,.3);
+  z-index: 9999;
+}
+
+/* FLOATING BUTTON */
+.assist-float{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(145deg,#00ff99,#00cc7a);
+  box-shadow: 0 0 14px rgba(0,255,153,.6);
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.25s;
+}
+
+.assist-float:hover{
+  transform: scale(1.08);
+}
+
+.assist-float span{
+  font-size:26px;
+  color:#062b1c;
+}
+
+/* PANEL */
+#assist-panel{
+  position: fixed;
+  right: 18px;
+  bottom: 90px;
+  width: 320px;
+  max-height: 420px;
+  background: #0e0e0e;
+  border-radius: 16px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 15px 40px rgba(0,0,0,.4);
+  z-index: 9999;
+}
+
+/* FAQ BUTTON */
+.assist-option{
+  width:100%;
+  background:#1f1f1f;
+  color:#00ff99;
+  border:none;
+  padding:8px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  text-align:left;
+}
+
+.assist-option:hover{
+  background:#00ff99;
+  color:#000;
+}
+/* CHAT AREA */
+.assist-chat{
+  padding: 12px;
+  overflow-y: auto;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* BUBBLE UMUM */
+.assist-bot,
+.assist-user{
+  padding: 10px 12px;
+  border-radius: 14px;
+  max-width: 85%;
+  line-height: 1.4;
+  animation: chatIn .25s ease;
+}
+
+/* BOT */
+.assist-bot{
+  background: #1c1c1c;
+  color: #e8e8e8;
+  border-top-left-radius: 4px;
+}
+
+/* USER */
+.assist-user{
+  background: linear-gradient(135deg,#00ff99,#00cc7a);
+  color: #062b1c;
+  margin-left: auto;
+  border-top-right-radius: 4px;
+  font-weight: 600;
+}
+
+/* ANIMASI MASUK */
+@keyframes chatIn{
+  from{
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.typing{
+  display: flex;
+  gap: 4px;
+  padding: 8px 10px;
+  background: #1c1c1c;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.typing span{
+  width: 6px;
+  height: 6px;
+  background: #00ff99;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+.typing span:nth-child(2){ animation-delay:.2s }
+.typing span:nth-child(3){ animation-delay:.4s }
+
+@keyframes blink{
+  0%{ opacity:.2 }
+  20%{ opacity:1 }
+  100%{ opacity:.2 }
+}
+.assist-option{
+  width:100%;
+  background: #121212;
+  color: #00ff99;
+  border: 1px solid rgba(0,255,153,.25);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: .25s;
+  font-weight: 600;
+}
+
+.assist-option:hover{
+  background: linear-gradient(135deg,#00ff99,#00cc7a);
+  color: #062b1c;
+  transform: translateX(4px);
+}
+</style>
+</head>
+<script>
+// Accordion (sudah ada)
+function toggleAcc(id){
+  document.querySelectorAll(".accordion-content").forEach(el=>{
+    if(el.id !== id) el.classList.remove("open");
+  });
+
+  const el = document.getElementById(id);
+  el.classList.toggle("open");
+
+  setTimeout(()=>{
+    el.scrollIntoView({ behavior:"smooth", block:"nearest" });
+  },200);
+}
+
+// Gallery klik → maju
+const galleryImgs = document.querySelectorAll('.gallery img');
+galleryImgs.forEach(img=>{
+  img.addEventListener('click', ()=>{
+    galleryImgs.forEach(i=>i.classList.remove('active')); // hapus efek di gambar lain
+    img.classList.add('active'); // tambahkan efek di gambar yang diklik
+  });
+});
+</script>
+<script>
+function sendMenu(){
+  const box = document.getElementById("chatBox");
+
+  const oldMenu = document.getElementById("menu-response");
+  const oldUser = document.getElementById("menu-user");
+
+  // 👉 KALAU SUDAH ADA = HILANGKAN (TOGGLE OFF)
+  if(oldMenu || oldUser){
+    if(oldMenu) oldMenu.remove();
+    if(oldUser) oldUser.remove();
+    return;
+  }
+
+  // 👉 KALAU BELUM ADA = TAMPILKAN (TOGGLE ON)
+  const user = document.createElement("div");
+  user.className = "chat user";
+  user.id = "menu-user";
+  user.textContent = ".menu";
+  box.appendChild(user);
+
+  const typing = document.createElement("div");
+  typing.className = "typing";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  box.appendChild(typing);
+
+  box.scrollTop = box.scrollHeight;
+
+  setTimeout(()=>{
+    typing.remove();
+
+    const bot = document.createElement("div");
+    bot.className = "chat bot";
+    bot.id = "menu-response";
+    bot.innerHTML = `
+📜 <b>MENU MRCBOT</b><br><br>
+🤖 AI Assistant<br>
+📥 Downloader<br>
+👥 Group Tools<br>
+👤 Private Tools<br>
+🕵️‍♂️ Osint Tools<br>
+🔐 VIP Menu<br>
+🤍 And 73 Other Features<br>
+    `;
+    box.appendChild(bot);
+    box.scrollTop = box.scrollHeight;
+  },900);
+}
+</script>
+<script>
+function showTiktok(){
+  const box = document.getElementById("ttBox");
+  const chat = document.getElementById("chatBox");
+
+  const oldTT = document.getElementById("tt-response");
+  const oldUser = document.getElementById("tt-user");
+
+  // 👉 JIKA SUDAH TERBUKA → TUTUP & BERSIHKAN
+  if(box.style.display === "flex"){
+    box.style.display = "none";
+    if(oldTT) oldTT.remove();
+    if(oldUser) oldUser.remove();
+    return;
+  }
+
+  // 👉 JIKA BELUM → BUKA
+  box.style.display = "flex";
+}
+</script>
+<script>
+async function downloadTT(){
+  const link = document.getElementById("ttLink").value;
+  const box = document.getElementById("chatBox");
+
+  if(!link) return alert("Masukkan link TikTok");
+
+  // hapus hasil & user lama
+  const oldTT = document.getElementById("tt-response");
+  const oldUser = document.getElementById("tt-user");
+  if(oldTT) oldTT.remove();
+  if(oldUser) oldUser.remove();
+
+  // user bubble (PAKAI ID)
+  const user = document.createElement("div");
+  user.className = "chat user";
+  user.id = "tt-user";
+  user.textContent = link;
+  box.appendChild(user);
+
+  // typing
+  const typing = document.createElement("div");
+  typing.className = "typing";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  box.appendChild(typing);
+
+  box.scrollTop = box.scrollHeight;
+
+  try{
+    const res = await fetch(
+      `https://tikwm.com/api/?url=${encodeURIComponent(link)}`
+    );
+    const data = await res.json();
+    typing.remove();
+
+    const bot = document.createElement("div");
+    bot.className = "chat bot";
+    bot.id = "tt-response";
+
+    if(!data.data){
+      bot.textContent = "❌ Video tidak ditemukan";
+    }else{
+      const videoUrl = data.data.play;
+const audioUrl = data.data.music;
+
+bot.innerHTML = `
+<b>${data.data.title || "TikTok Video"}</b><br><br>
+
+<div class="tt-actions">
+  <button class="tt-btn" onclick="playTT('${videoUrl}')">▶ Putar Video</button>
+  <button class="tt-btn" onclick="forceDownload('${videoUrl}','tiktok-video.mp4')">⬇ Download Video</button>
+  <button class="tt-btn" onclick="forceDownload('${audioUrl}','tiktok-audio.mp3')">🎵 Download Audio</button>
+</div>
+
+<div id="tt-player"></div>
+`;
+    }
+
+    box.appendChild(bot);
+    box.scrollTop = box.scrollHeight;
+
+}catch(err){
+  typing.remove();
+
+  const bot = document.createElement("div");
+  bot.className = "chat bot";
+  bot.id = "jadshol-response";
+  bot.textContent = "⚠️ Gagal mengambil data";
+  chat.appendChild(bot);
+
+  jadsholLoading = false; // ⬅️ WAJIB
+  }
+}
+</script>
+<script>
+function playTT(url){
+  const player = document.getElementById("tt-player");
+  player.innerHTML = `
+    <video controls autoplay style="width:100%;border-radius:12px;margin-top:8px">
+      <source src="${url}" type="video/mp4">
+    </video>
+  `;
+}
+
+function forceDownload(url, filename){
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+</script>
+<script>
+function showJadshol(){
+  const box = document.getElementById("jadsholBox");
+
+  const oldBot = document.getElementById("jadshol-response");
+  const oldUser = document.getElementById("jadshol-user");
+
+  // toggle off
+  if(box.style.display === "flex"){
+    box.style.display = "none";
+    if(oldBot) oldBot.remove();
+    if(oldUser) oldUser.remove();
+    document.getElementById("jadsholInput").value = "";
+    return;
+  }
+
+  // toggle on
+  box.style.display = "flex";
+}
+</script>
+<script>
+let jadsholLoading = false;
+
+async function cekJadshol(){
+  if(jadsholLoading) return; // ⛔ cegah spam
+  jadsholLoading = true;
+
+  const kota = document.getElementById("jadsholInput").value;
+  const chat = document.getElementById("chatBox");
+
+  if(!kota){
+    jadsholLoading = false;
+    return alert("Masukkan nama kota");
+  }
+
+  // 🧹 bersihkan hasil lama
+  const oldBot = document.getElementById("jadshol-response");
+const oldUser = document.getElementById("jadshol-user");
+if(oldBot) oldBot.remove();
+if(oldUser) oldUser.remove();
+  
+
+  // user bubble
+  const user = document.createElement("div");
+  user.className = "chat user";
+user.id = "jadshol-user";
+  user.textContent = `.jadshol ${kota}`;
+  chat.appendChild(user);
+
+  // typing
+  const typing = document.createElement("div");
+  typing.className = "typing jadshol-response";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  chat.appendChild(typing);
+  chat.scrollTop = chat.scrollHeight;
+
+  try{
+    const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${kota}&country=Indonesia&method=2`);
+    const data = await res.json();
+
+    typing.remove();
+
+    const bot = document.createElement("div");
+    bot.className = "chat bot";
+bot.id = "jadshol-response";
+
+    if(data.code !== 200){
+      bot.textContent = "⚠️ Gagal mengambil data";
+    } else {
+      const t = data.data.timings;
+      bot.innerHTML = `
+<b>🕌 Jadwal Sholat ${kota}</b><br><br>
+Subuh: ${t.Fajr}<br>
+Dzuhur: ${t.Dhuhr}<br>
+Ashar: ${t.Asr}<br>
+Maghrib: ${t.Maghrib}<br>
+Isya: ${t.Isha}
+      `;
+    }
+
+    chat.appendChild(bot);
+    chat.scrollTop = chat.scrollHeight;
+
+  }catch(err){
+    typing.remove();
+    const bot = document.createElement("div");
+    bot.className = "chat bot";
+bot.id = "jadshol-response";
+    bot.textContent = "⚠️ Gagal mengambil data";
+    chat.appendChild(bot);
+  }
+
+  jadsholLoading = false; // 🔓 buka lock
+}
+</script>
+<script>
+function showQR(){
+  const box = document.getElementById("qrBox");
+  const oldQR = document.getElementById("qr-response");
+  const oldUser = document.getElementById("qr-user");
+
+  // toggle off
+  if(box.style.display === "flex"){
+    box.style.display = "none";
+    if(oldQR) oldQR.remove();
+    if(oldUser) oldUser.remove();
+    return;
+  }
+
+  box.style.display = "flex";
+}
+
+function generateQR(){
+  const text = document.getElementById("qrText").value;
+  const chat = document.getElementById("chatBox");
+
+  if(!text) return alert("Masukkan teks atau link");
+
+  // bersihkan hasil lama
+  const oldQR = document.getElementById("qr-response");
+  const oldUser = document.getElementById("qr-user");
+  if(oldQR) oldQR.remove();
+  if(oldUser) oldUser.remove();
+
+  // user bubble
+  const user = document.createElement("div");
+  user.className = "chat user";
+  user.id = "qr-user";
+  user.textContent = ".qrcode " + text;
+  chat.appendChild(user);
+
+  // bot bubble
+  const bot = document.createElement("div");
+  bot.className = "chat bot";
+  bot.id = "qr-response";
+  bot.innerHTML = `<b>🔳 QR Code Result</b><br><br><div id="qrCanvas"></div>`;
+  chat.appendChild(bot);
+
+  // generate QR
+  new QRCode(document.getElementById("qrCanvas"), {
+    text: text,
+    width: 180,
+    height: 180,
+    colorDark : "#00ff99",
+    colorLight : "#000000",
+    correctLevel : QRCode.CorrectLevel.H
+  });
+
+  chat.scrollTop = chat.scrollHeight;
+}
+</script>
+<script>
+/* VALIDASI TIKTOK */
+function isTikTok(url){
+  return /tiktok\.com|vt\.tiktok\.com|vm\.tiktok\.com/i.test(url);
+}
+</script>
+<script>
+async function downloadLagu(){
+  const link = document.getElementById("dwLaguLink").value;
+  const box = document.getElementById("chatBox");
+
+  if(!link){
+    alert("Masukkan link TikTok");
+    return;
+  }
+
+  if(!isTikTok(link)){
+    box.innerHTML += `
+      <div class="chat bot">
+        ❌ .dwlagu hanya mendukung TikTok<br>
+        🔁 Gunakan bot WhatsApp untuk YouTube / IG / FB
+      </div>
+    `;
+    return;
+  }
+
+  // === TIKWM ===
+  const res = await fetch(`https://tikwm.com/api/?url=${encodeURIComponent(link)}`);
+  const data = await res.json();
+
+  if(!data.data){
+    box.innerHTML += `<div class="chat bot">❌ Lagu tidak ditemukan</div>`;
+    return;
+  }
+
+  const audio = data.data.music;
+
+  box.innerHTML += `
+    <div class="chat bot">
+      🎵 TikTok Audio<br><br>
+      <button onclick="forceDownload('${audio}','tiktok-audio.mp3')">
+        ⬇ Download MP3
+      </button>
+    </div>
+  `;
+}
+</script>
+<script>
+function clearChat(){
+  const box = document.getElementById("chatBox");
+  if(box) box.innerHTML = "";
+}
+</script>
+<script>
+function toggleDwInput(type){
+  clearChat(); // hapus log lama
+
+  if(type === "dwLagu"){
+    const box = document.getElementById("dwLaguBox");
+    box.style.display = box.style.display === "flex" ? "none" : "flex";
+  }
+
+  if(type === "dwVideo"){
+    const box = document.getElementById("dwVideoBox");
+    box.style.display = box.style.display === "flex" ? "none" : "flex";
+  }
+
+  if(type === "ttStalkBox"){
+    const box = document.getElementById("ttStalkBox");
+    box.style.display = box.style.display === "flex" ? "none" : "flex";
+  }
+
+  if(type === "cekIPBox"){
+    const box = document.getElementById("cekIPBox");
+    box.style.display = box.style.display === "flex" ? "none" : "flex";
+  }
+}
+
+function dwlagunmWeb(){
+  const lagu = document.getElementById("dwVideoName").value;
+  const box = document.getElementById("chatBox");
+
+  if(!lagu){
+    alert("Masukkan nama lagu");
+    return;
+  }
+
+  // bubble user
+  box.innerHTML += `
+    <div class="chat user">.dwsongnm ${lagu}</div>
+  `;
+
+  // encode teks ke WA
+  const waLink =
+    "https://wa.me/6285168820980?text=" +
+    encodeURIComponent(".dwsongnm " + lagu);
+
+  // bubble bot (INFO SAJA)
+  box.innerHTML += `
+    <div class="chat bot">
+      🎵 <b>Download Lagu</b><br><br>
+      ⚠️ Fitur <b>.dwsongnm</b> hanya tersedia di bot WhatsApp<br><br>
+      <a href="${waLink}" target="_blank">
+        <button class="tt-btn">📲 Lanjut ke Bot WhatsApp</button>
+      </a>
+    </div>
+  `;
+
+  box.scrollTop = box.scrollHeight;
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  function setupGallery(){
+    const galleryImgs = document.querySelectorAll('.gallery img');
+
+    galleryImgs.forEach(img => {
+
+      // Hapus listener lama dulu supaya tidak dobel
+      img.replaceWith(img.cloneNode(true));
+    });
+
+    const freshImgs = document.querySelectorAll('.gallery img');
+
+    freshImgs.forEach(img => {
+      img.addEventListener('click', () => {
+        const isActive = img.classList.contains('active');
+        const gallery = img.parentElement;
+
+        // reset semua gambar
+        freshImgs.forEach(i => {
+          i.classList.remove('active');
+          i.style.zIndex = '0';
+        });
+
+        if(!isActive){
+          // klik pertama → aktifkan
+          img.classList.add('active');
+          img.style.zIndex = '10';
+
+          // scroll ke tengah
+          const imgCenter = img.offsetLeft + img.offsetWidth / 2;
+          const galleryCenter = gallery.offsetWidth / 2;
+          gallery.scrollTo({
+            left: imgCenter - galleryCenter,
+            behavior: 'smooth'
+          });
+        }
+        // klik kedua → semua kembali normal
+      });
+    });
+  }
+
+  // jalankan setup pertama kali
+  setupGallery();
+
+  // observer supaya gallery listener aktif saat accordion dibuka
+  const previewAcc = document.getElementById('preview');
+  const observer = new MutationObserver(muts => {
+    muts.forEach(m => {
+      if(m.type === 'attributes' && m.attributeName === 'class'){
+        if(previewAcc.classList.contains('open')){
+          setupGallery();
+        }
+      }
+    });
+  });
+  observer.observe(previewAcc, { attributes:true });
+});
+</script>
+<script>
+function toggleAssistant(){
+  const panel = document.getElementById("assist-panel");
+
+  if(panel.style.display === "flex"){
+    panel.style.display = "none";
+  } else {
+    panel.style.display = "flex";
+    loadAssistMenu();
+  }
+}
+</script>
+<script>
+function askAssist(key){
+  playClick();
+
+  const chat = document.getElementById("assistChat");
+  const data = ASSIST_FAQ[key];
+
+  // user bubble
+  chat.innerHTML += `
+    <div class="assist-user">${data.q}</div>
+  `;
+
+  // typing
+  const typing = document.createElement("div");
+  typing.className = "typing assist-bot";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  chat.appendChild(typing);
+  chat.scrollTop = chat.scrollHeight;
+
+  setTimeout(()=>{
+    typing.remove();
+    chat.innerHTML += `
+      <div class="assist-bot">
+        ${data.a.replace(/\n/g,"<br>")}
+      </div>
+    `;
+    chat.scrollTop = chat.scrollHeight;
+  }, 1000);
+}
+</script>
+<script>
+const ASSIST_FAQ = {
+  fitur: {
+    q: "✨ Fitur apa saja yang tersedia?",
+    a:
+`🤖 <b>MRCBOT WhatsApp</b> punya banyak fitur Good:
+
+🎵 Download Lagu
+    (YouTube/TikTok/IG/FB)
+🎬 Medsos Downloader
+    (Video & Audio)
+🕌 Jadwal Sholat Semua Kota
+🔳 QR Code Generator
+🧠 AI Assistant (Tanya apa saja)
+🤖 Chatbot 
+    (berbicara dengan bot real-time)
+🕵️‍♂️ OSINT (mencari info data publik)
+    tahap pengembangan
+
+📲 <b>Dan 73 fitur lainnya aktif penuh di Bot</b>`
+  },
+
+  lagu: {
+    q: "🎧 Bagaimana cara download lagu?",
+    a:
+`🎶 Download lagu dilakukan via WhatsApp Bot
+
+📝 Contoh perintah:
+<b>.dwlagu (link dari YouTube/Tiktok/IG/FB)</b>
+
+⚠️ Untuk hasil cepat & lengkap, gunakan bot WhatsApp ya`
+  },
+
+  vip: {
+    q: "🔐 Keunggulan & Untuk Buy VIP?",
+    a:
+`🚀 <b>VIP Member</b> mendapatkan:
+
+✅ Tanpa limit
+⚡ Proses lebih cepat
+🎯 Fitur eksklusif
+🛡️ Prioritas server
+
+💠 <b>Info Buy VIP</b>
+ℹ️ Ketik <b>.infvip</b> di Bot untuk info lengkap
+ℹ️ Buy VIP secara manual dengan chat Owner lansung`
+  },
+
+  keamanan: {
+    q: "🛡️ Aman tidak menggunakan bot ini?",
+    a:
+`✅ Aman & anti spam
+✅ Private per user
+✅ Digunakan ratusan user
+
+Bot dirancang untuk penggunaan harian dengan aman`
+  },
+
+  bantuan: {
+    q: "⚡ Perlu akses fitur lain?",
+    a:
+`Jika fitur web tidak tersedia,
+silakan lanjut ke Bot 👇
+
+📲 Klik tombol <b>MASUK KE BOT</b> di halaman utama`
+  },
+  
+  simpan: {
+    q:"🎶gimana simpan lagu yg sudh di dw?",
+    a:
+`untuk simpan lagu yang sudh di download dari bot dan memutar lagu nya sudh ada di saluran bot
+
+📲 Klik jaringan bot di halaman web`
+  },
+  
+  Owner: {
+    q: "☎️ Gimana untuk chat owner?",
+    a:
+`Ping owner di bot dengan
+Ketik <b>@RMUH9</b> dengan pesan (opsional)
+
+👨‍💻 Chat akan di balas secepatnya oleh owner`
+  }
+};
+</script>
+<script>
+let assistInitialized = false;
+</script>
+<script>
+function loadAssistMenu(){
+  const chat = document.getElementById("assistChat");
+
+  Object.keys(ASSIST_FAQ).forEach(k=>{
+    chat.innerHTML += `
+      <div class="assist-bot">
+        <button class="assist-option"
+          onclick="playClick(); askAssist('${k}')">
+          ${ASSIST_FAQ[k].q}
+        </button>
+      </div>
+    `;
+  });
+}
+</script>
+<script>
+document.addEventListener("click", function(e){
+
+  // elemen yang boleh bunyi
+  const clickable = e.target.closest(
+    "button, a, .assist-option, .assist-float, .tt-btn"
+  );
+
+  if(!clickable) return;
+
+  const sound = document.getElementById("clickSound");
+  if(!sound) return;
+
+  sound.currentTime = 0;
+  sound.play().catch(()=>{});
+});
+</script>
+<script>
+function toggleAssistant(){
+  playClick();
+
+  const panel = document.getElementById("assist-panel");
+  const chat  = document.getElementById("assistChat");
+
+  if(panel.style.display === "flex"){
+    panel.style.display = "none";
+    return;
+  }
+
+  // ⬇️ BUKA PANEL
+  panel.style.display = "flex";
+
+  // ⬇️ RESET CHAT TOTAL
+  chat.innerHTML = "";
+
+  // typing
+  const typing = document.createElement("div");
+  typing.className = "typing assist-bot";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  chat.appendChild(typing);
+
+  setTimeout(()=>{
+    typing.remove();
+
+    chat.innerHTML += `
+      <div class="assist-bot">
+        👋 Halo! Saya <b>Asisten MRC</b><br>
+        Silakan pilih pertanyaan di bawah 👇
+      </div>
+    `;
+
+    loadAssistMenu();
+    chat.scrollTop = chat.scrollHeight;
+  }, 900);
+}
+</script>
+<script>
+function appendAssistMenu(){
+  const chat = document.getElementById("assistChat");
+
+  Object.keys(ASSIST_FAQ).forEach(k=>{
+    chat.innerHTML += `
+      <div class="assist-bot">
+        <button class="assist-option" onclick="askAssist('${k}')">
+          ${ASSIST_FAQ[k].q}
+        </button>
+      </div>
+    `;
+  });
+}
+</script>
+<script>
+function showCekIP(){
+  clearChat(); // hapus log lama
+
+  const box = document.getElementById("cekIPBox");
+  box.style.display = box.style.display === "flex" ? "none" : "flex";
+}
+</script>
+<script>
+async function cekIP(){
+  const ipInput = document.getElementById("cekIPInput").value;
+  const box = document.getElementById("chatBox");
+
+  // hapus hasil lama
+  const oldBot = document.getElementById("cekip-response");
+  const oldUser = document.getElementById("cekip-user");
+  if(oldBot) oldBot.remove();
+  if(oldUser) oldUser.remove();
+
+  // bubble user
+  const user = document.createElement("div");
+  user.className = "chat user";
+  user.id = "cekip-user";
+  user.textContent = ipInput ? `.cek ip ${ipInput}` : `.cek ip`;
+  box.appendChild(user);
+
+  // typing
+  const typing = document.createElement("div");
+  typing.className = "typing";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  box.appendChild(typing);
+  box.scrollTop = box.scrollHeight;
+
+  try{
+    let url = ipInput 
+      ? `https://ipinfo.io/${ipInput}/json` 
+      : `https://ipinfo.io/json`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    typing.remove();
+
+    const bot = document.createElement("div");
+    bot.className = "chat bot";
+    bot.id = "cekip-response";
+
+    // cek kalau ipinfo error
+    if(data.error){
+      bot.textContent = "❌ IP tidak ditemukan";
+    } else {
+      bot.innerHTML = `
+<b>🌐 Informasi IP</b><br>
+IP: ${data.ip}<br>
+Negara: ${data.country}<br>
+Wilayah: ${data.region}<br>
+Kota: ${data.city}<br>
+Koordinat: ${data.loc}<br>
+ISP/Org: ${data.org}<br>
+Kode Pos: ${data.postal || '-'}<br>
+Timezone: ${data.timezone || '-'}
+      `;
+    }
+
+    box.appendChild(bot);
+    box.scrollTop = box.scrollHeight;
+
+  } catch(err){
+    typing.remove();
+    const bot = document.createElement("div");
+    bot.className = "chat bot";
+    bot.id = "cekip-response";
+    bot.textContent = "⚠️ Gagal mengambil data IP";
+    box.appendChild(bot);
+    box.scrollTop = box.scrollHeight;
+  }
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+function randomU() {
+  // Bisa diganti dengan list User-Agent lebih panjang
+  const agents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/115.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148"
+  ];
+  return agents[Math.floor(Math.random() * agents.length)];
+}
+
+async function cekTikTok() {
+  const username = document.getElementById("tiktokUser").value.trim();
+  const box = document.getElementById("chatBox");
+
+  if(!username) return alert("Masukkan username TikTok!");
+
+  // === Bubble user ===
+  const userMsg = document.createElement("div");
+  userMsg.className = "chat user";
+  userMsg.textContent = `.tiktokstalk ${username}`;
+  box.appendChild(userMsg);
+
+  // === Typing animation ===
+  const typing = document.createElement("div");
+  typing.className = "typing";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  box.appendChild(typing);
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const res = await axios.get(
+      `https://tikwm.com/api/user/info?unique_id=${encodeURIComponent(username)}`,
+      { 
+        headers: { "User-Agent": randomU(), "Accept": "application/json" },
+        timeout: 15000
+      }
+    );
+
+    typing.remove();
+
+    if(!res.data || res.data.code !== 0){
+      throw "TikTok API error";
+    }
+
+    const u = res.data.data.user;
+    const s = res.data.data.stats;
+    if(!u || !s) throw "Data TikTok tidak lengkap";
+
+    const botMsg = document.createElement("div");
+    botMsg.className = "chat bot";
+    botMsg.innerHTML = `
+<b>@${u.uniqueId} (${u.nickname})</b><br>
+Bio: ${u.signature || "-"}<br>
+Followers: ${s.followerCount}<br>
+Following: ${s.followingCount}<br>
+Likes: ${s.heartCount}<br>
+Videos: ${s.videoCount}<br>
+Private: ${u.privateAccount ? "Ya" : "Tidak"}<br>
+Verified: ${u.verified ? "Ya" : "Tidak"}<br>
+Profile: <a href="https://www.tiktok.com/@${u.uniqueId}" target="_blank">tiktok.com/@${u.uniqueId}</a>
+    `;
+    box.appendChild(botMsg);
+    box.scrollTop = box.scrollHeight;
+
+  } catch(err){
+    typing.remove();
+    const botMsg = document.createElement("div");
+    botMsg.className = "chat bot";
+    botMsg.textContent = `⚠️ Gagal mengambil data TikTok.`;
+    box.appendChild(botMsg);
+    box.scrollTop = box.scrollHeight;
+    console.error(err);
+  }
+}
+</script>
+<audio id="clickSound" preload="auto">
+  <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+</audio>
+<script>
+function playClick(){
+  const s = document.getElementById("clickSound");
+  if(s){
+    s.currentTime = 0;
+    s.play().catch(()=>{});
+  }
+}
+</script>
+<body>
+
+<div class="wrapper">
+  <div class="card">
+
+    <!-- LOGO -->
+    <div class="logo">
+      <img src="https://i.ibb.co.com/5NGsnQL/mrci.webp" alt="Logo">
+    </div>
+
+    <!-- TEXT -->
+    <div class="title">MRCBOT WHATSAPP</div>
+    <div class="desc">Klik tombol di bawah untuk langsung masuk ke bot</div>
+
+    <!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-content">
+    <span class="rainbow-dim">
+      🚀 Selamat Datang di MRCBOT • WhatsApp Bot Seru & Safety • Owner MRC999 Project RMUH9 👨‍💻
+    </span>
+
+    <span class="rainbow-dim">
+      🚀 Selamat Datang di MRCBOT • WhatsApp Bot Seru & Safety • Owner MRC999 Project RMUH9 👨‍💻
+    </span>
+  </div>
+</div>
+
+    <!-- SINGLE BUTTON -->
+    <div class="buttons">
+      <a href="https://wa.me/6285168820980?text=.menu"
+         target="_blank"
+         class="btn btn-masuk">
+        MASUK KE BOT
+      </a>
+    </div>
+    <div class="section">
+  <h2 class="section-title hologram-text">✨ Tentang Bot</h2>
+  
+  <div class="features">
+    <div class="feature-card">
+      <h3>🤖 Auto Command</h3>
+      <p>Bot merespon otomatis tanpa prefix untuk fitur tertentu.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>🔐 Sistem VIP</h3>
+      <p>Akses premium tanpa limit & fitur eksklusif.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>📥 Auto Downloader</h3>
+      <p>Download video, audio, & media hanya dengan link.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>🧠 AI Assistant</h3>
+      <p>Tanya apa saja, dijawab pintar & cepat.</p>
+    </div>
+  </div>
+</div>
+<!-- TOGGLE BUTTON -->
+<button class="accordion-btn" onclick="toggleAcc('contoh')">
+  💬 Contoh Fitur
+</button>
+
+<div class="accordion-content" id="contoh">
+
+  <!-- tombol cepat -->
+<!-- quick-cmd container -->
+<div class="quick-cmd">
+
+  <button onclick="sendMenu()">.menu</button>
+  <button onclick="showTiktok()">🎵 TikTok Downloader</button>
+  <button onclick="showJadshol()">🕌 .jadshol</button>
+  <button onclick="showQR()">🔳 .qrcode</button>
+  <button onclick="showCekIP()">🌐 .cek ip</button>
+  <button onclick="toggleDwInput('ttStalkBox')">🔍 .tiktokstalk</button>
+  <button onclick="toggleDwInput('dwLagu')">🎵 .dwlagu</button>
+  <button onclick="toggleDwInput('dwVideo')">🎸 .dwsongnm</button>
+</div>
+
+  <!-- chat simulasi -->
+  <div class="chat-box" id="chatBox"></div>
+<!-- .dwlagu / .dwlagunm -->
+<div class="tiktok-box" id="dwLaguBox" style="display:none;">
+  <input id="dwLaguLink" placeholder="masukkan link lagu [yt/tiktuk/ig/fb]">
+  <button onclick="downloadLagu()">➜] Download</button>
+</div>
+<!-- TikTok Stalk -->
+<div class="tiktok-box" id="ttStalkBox" style="display:none;">
+  <input id="tiktokUser" placeholder="Masukkan username TikTok">
+  <button onclick="cekTikTok()">⌕ Cek</button>
+</div>
+<div class="tiktok-box" id="cekIPBox" style="display:none;">
+  <input id="cekIPInput" placeholder="Masukkan IP (kosongkan untuk IP.me)">
+  <button onclick="cekIP()">⌕ Cek</button>
+</div>
+
+<div class="tiktok-box" id="dwVideoBox" style="display:none;">
+  <input
+    id="dwVideoName"
+    placeholder="lagu + pencipta (cth: ah nadin amizah x reggae)"
+  >
+  <button onclick="dwlagunmWeb()">▶ Play</button>
+</div>
+  <!-- TikTok downloader -->
+  <div class="tiktok-box" id="ttBox" style="display:none;">
+    <input id="ttLink" placeholder="paste link TikTok di sini">
+    <button onclick="downloadTT()">➜] Download</button>
+  </div>
+<!-- Jadshol -->
+<div class="tiktok-box" id="jadsholBox" style="display:none;">
+  <input id="jadsholInput" placeholder="masukkan nama kota (cth: tokyo) [all city in word]">
+  <button onclick="cekJadshol()">⌕ Cek</button>
+</div>
+<div class="tiktok-box" id="qrBox" style="display:none;">
+  <input id="qrText" placeholder="Masukkan link / teks">
+  <button onclick="generateQR()">✦ Generate</button>
+</div>
+</div>
+ 
+<button class="accordion-btn" onclick="toggleAcc('preview')">
+  🖼️ Preview Fitur
+</button>
+<div class="accordion-content" id="preview">
+  <div class="gallery">
+    <img src="https://i.ibb.co.com/rG61Lc7S/mr.webp">
+    <img src="https://i.ibb.co.com/C3FS61jQ/b.webp">
+    <img src="https://i.ibb.co.com/9mtP8WWQ/d.webp">
+    <img src="https://i.ibb.co.com/spxdy8Wb/f.webp">
+    <img src="https://i.ibb.co.com/rGYhjcgt/e.webp">
+    <img src="https://i.ibb.co.com/Hf2k2nBx/n.webp">
+    <img src="https://i.ibb.co.com/1tFmvwjp/p.webp">
+    <img src="https://i.ibb.co.com/SXP9Lj8d/m.webp">
+    <img src="https://i.ibb.co.com/jPwPr7pp/y.webp">
+    <img src="https://i.ibb.co.com/svkvJk7x/o.webp">
+    <img src="https://i.ibb.co.com/JR7PcdS8/pw.webp">
+    <img src="https://i.ibb.co.com/1tN1J7wj/ba.webp">
+  </div>
+</div>
+<button class="accordion-btn" onclick="toggleAcc('unggulan')">
+  ⚡ Keunggulan Bot
+</button>
+
+<div class="accordion-content" id="unggulan">
+  <ul class="advantages">
+    <li>✅ Safety & Perfesional</li>
+    <li>⚡ Respon Cepat 24 Jam</li>
+    <li>🧩 Fitur Grup & Private</li>
+    <li>🔄 Update Berkala</li>
+  </ul>
+</div>
+<button class="accordion-btn" onclick="toggleAcc('jaringan')">
+  🌐 Jaringan Bot
+</button>
+
+<div class="accordion-content" id="jaringan">
+  <div class="network-list">
+    
+    <a href="https://whatsapp.com/channel/0029Vb6zbH99Bb5xfRw3VF3N"
+       target="_blank"
+       class="network-btn wa">
+       📢 Saluran WhatsApp
+    </a>
+
+    <a href="https://chat.whatsapp.com/GsqY9vv2KcAI9AizTRk3r7"
+       target="_blank"
+       class="network-btn wa">
+       💬 Grup WhatsApp
+    </a>
+
+    <a href="https://t.me/RMUH9"
+       target="_blank"
+       class="network-btn tg">
+       💠Telegram Owner
+    </a>
+
+  </div>
+</div>
+  <div class="footer">
+    © 2026 • Powered by MRC999 Project
+  </div>
+</div>
+<!-- FLOATING BUTTON -->
+<button class="assist-float" onclick="toggleAssistant()">
+  <span>💬</span>
+</button>
+<!-- PANEL -->
+<div id="assist-panel">
+  <div class="assist-header">
+      --Asisten MRC
+    <span onclick="toggleAssistant()">✕</span>
+  </div>
+  <div class="assist-chat" id="assistChat"></div>
+</div>
+
+</body>
+</html>
