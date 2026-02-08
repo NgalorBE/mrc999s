@@ -227,27 +227,76 @@ body::before{
   border:1px solid rgba(255,255,255,.15);
 }
 
-/* Gallery */
 .gallery{
-  display:flex;
-  gap:12px;
-  overflow-x:auto;
-  padding:4px 0;
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: visible;   /* ⬅️ penting */
+  padding: 24px 0;       /* ⬅️ ruang aman atas bawah */
+  scroll-behavior: smooth;
 }
 
-.gallery img{
-  width:180px;
-  border-radius:14px;
-  box-shadow:0 0 12px rgba(0,255,153,.4);
-  cursor:pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0.3s ease;
-  z-index:0;
+/* ITEM NORMAL */
+.gallery-item{
+  min-width: 160px;
+  height: 280px;
+  border-radius: 18px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+
+  opacity: .7;
+  transform: scale(1);
+  transition: 
+    transform .35s ease,
+    box-shadow .35s ease,
+    border .35s ease,
+    opacity .35s ease;
+
+  border: 2px solid transparent;
 }
 
-.gallery img.active{
-  transform: scale(1.2);                /* gambar lebih besar */
-  box-shadow:0 0 24px rgba(0,255,153,.8); /* glow lebih kuat */
-  z-index:10;                             /* tampil di atas gambar lain */
+/* HOVER (opsional, ringan) */
+.gallery-item:hover{
+  opacity: .9;
+}
+
+/* 🔥 AKTIF (klik 1x) */
+.gallery-item.active{
+  transform: scale(1.18);
+  opacity: 1;
+
+  border: 2px solid #00ff99;
+  box-shadow:
+    0 0 12px rgba(0,255,153,.6),
+    0 0 28px rgba(0,255,153,.45);
+  z-index: 2;
+}
+
+/* judul overlay */
+.gallery-item::after{
+  content: attr(data-title);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+
+  background: linear-gradient(to top,rgba(0,0,0,.75),transparent);
+  border-radius: 0 0 16px 16px;
+
+  opacity: 0;
+  transition: .3s;
+}
+
+.gallery-item.active::after{
+  opacity: 1;
 }
 .advantages li{
   margin-bottom:8px;
@@ -284,6 +333,39 @@ body::before{
 .network-btn.tg{
   border-color:rgba(0,200,255,.45);
 }
+
+/* 🔁 SAMAKAN <button> DENGAN <a.network-btn> */
+button.network-btn{
+  all: unset;              /* ⬅️ reset total gaya button */
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+
+  /* WARISI STYLE <a> */
+  padding: 14px;
+  text-align: center;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  color: #eafff7;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.25);
+  box-shadow: 0 0 10px rgba(0,0,0,.4);
+  transition: .25s ease;
+
+  cursor: pointer;
+}
+
+/* hover ikut <a> */
+button.network-btn:hover{
+  transform: translateY(-2px);
+}
+
+/* warna Telegram */
+button.network-btn.tg{
+  border-color: rgba(0,200,255,.45);
+}
+
 /* BUTTON */
 .buttons{
   display:flex;
@@ -753,31 +835,102 @@ a{
   color: #062b1c;
   transform: translateX(4px);
 }
+/* DONATE BUTTON */
+.network-btn.donate{
+  background: linear-gradient(135deg,#00ff99,#00cc7a);
+  color:#062b1c;
+  font-weight:700;
+}
+
+.donate-box{
+  display:none;
+  margin-top:14px;
+  text-align:center;
+  animation:fadeUp .35s ease;
+}
+
+.donate-box.open{
+  display:block;
+}
+
+.donate-box img{
+  width:100%;
+  max-width:220px;
+  border-radius:14px;
+  box-shadow:0 0 14px rgba(0,255,153,.45);
+}
+
+.donate-text{
+  margin-top:10px;
+  font-size:13px;
+  color:#ccc;
+}
 </style>
 </head>
 <script>
-// Accordion (sudah ada)
-function toggleAcc(id){
-  document.querySelectorAll(".accordion-content").forEach(el=>{
-    if(el.id !== id) el.classList.remove("open");
-  });
-
-  const el = document.getElementById(id);
-  el.classList.toggle("open");
-
-  setTimeout(()=>{
-    el.scrollIntoView({ behavior:"smooth", block:"nearest" });
-  },200);
+function toggleDonateQR(){
+  const qr = document.getElementById("donateQR");
+  qr.classList.toggle("open");
 }
 
-// Gallery klik → maju
-const galleryImgs = document.querySelectorAll('.gallery img');
-galleryImgs.forEach(img=>{
-  img.addEventListener('click', ()=>{
-    galleryImgs.forEach(i=>i.classList.remove('active')); // hapus efek di gambar lain
-    img.classList.add('active'); // tambahkan efek di gambar yang diklik
+/* ⬇️ PAKSA QR TERTUTUP SAAT ACCORDION BERPINDAH */
+function closeDonateQR(){
+  const qr = document.getElementById("donateQR");
+  if(qr) qr.classList.remove("open");
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+
+  const items = document.querySelectorAll(".gallery-item");
+  let activeItem = null;
+
+  items.forEach(item=>{
+    item.addEventListener("click", ()=>{
+
+      // KLIK KEDUA → RESET GAMBAR SAJA
+      if(activeItem === item){
+        item.classList.remove("active");
+        activeItem = null;
+        return;
+      }
+
+      // KLIK GAMBAR BARU
+      items.forEach(i=>i.classList.remove("active"));
+      item.classList.add("active");
+      activeItem = item;
+
+    });
   });
+
 });
+</script>
+<script>
+function toggleAcc(id){
+  closeDonateQR();
+  
+  const allContent = document.querySelectorAll(".accordion-content");
+  const target = document.getElementById(id);
+
+  // kalau target SUDAH terbuka → tutup saja
+  if(target.classList.contains("open")){
+    target.classList.remove("open");
+    return;
+  }
+
+  // ⬅️ tutup semua accordion lain
+  allContent.forEach(el => {
+    el.classList.remove("open");
+  });
+
+  // ⬅️ buka yang diklik
+  target.classList.add("open");
+
+  // scroll halus (opsional)
+  setTimeout(()=>{
+    target.scrollIntoView({ behavior:"smooth", block:"nearest" });
+  }, 200);
+}
 </script>
 <script>
 function sendMenu(){
@@ -1686,23 +1839,23 @@ function playClick(){
   
   <div class="features">
     <div class="feature-card">
-      <h3>🤖 Auto Command</h3>
-      <p>Bot merespon otomatis tanpa prefix untuk fitur tertentu.</p>
+      <h3>🤖 Group Monitoring</h3>
+      <p>Bot menjaga grup dengan fitur anti,link,delete,img,vd,stiker,audio, dan fitur grup lain nya</p>
     </div>
 
     <div class="feature-card">
       <h3>🔐 Sistem VIP</h3>
-      <p>Akses premium tanpa limit & fitur eksklusif.</p>
+      <p>Akses premium tanpa limit & fitur eksklusif yang tak bisa di akses user biasa</p>
     </div>
 
     <div class="feature-card">
       <h3>📥 Auto Downloader</h3>
-      <p>Download video, audio, & media hanya dengan link.</p>
+      <p>Download video, audio, & media hanya dengan kirim link ke bot tanpa pakai prefix </p>
     </div>
 
     <div class="feature-card">
-      <h3>🧠 AI Assistant</h3>
-      <p>Tanya apa saja, dijawab pintar & cepat.</p>
+      <h3>🧠 AI Assistant dan ChatBot</h3>
+      <p>Tanya apa saja, dijawab pintar & cepat</p>
     </div>
   </div>
 </div>
@@ -1772,19 +1925,83 @@ function playClick(){
 </button>
 <div class="accordion-content" id="preview">
   <div class="gallery">
-    <img src="https://i.ibb.co.com/rG61Lc7S/mr.webp">
-    <img src="https://i.ibb.co.com/C3FS61jQ/b.webp">
-    <img src="https://i.ibb.co.com/9mtP8WWQ/d.webp">
-    <img src="https://i.ibb.co.com/spxdy8Wb/f.webp">
-    <img src="https://i.ibb.co.com/rGYhjcgt/e.webp">
-    <img src="https://i.ibb.co.com/Hf2k2nBx/n.webp">
-    <img src="https://i.ibb.co.com/1tFmvwjp/p.webp">
-    <img src="https://i.ibb.co.com/SXP9Lj8d/m.webp">
-    <img src="https://i.ibb.co.com/jPwPr7pp/y.webp">
-    <img src="https://i.ibb.co.com/svkvJk7x/o.webp">
-    <img src="https://i.ibb.co.com/JR7PcdS8/pw.webp">
-    <img src="https://i.ibb.co.com/1tN1J7wj/ba.webp">
+
+  <div class="gallery-item"
+    data-title="MRC999 logo"
+    style="background-image:url('https://i.ibb.co.com/rG61Lc7S/mr.webp')">
   </div>
+
+  <div class="gallery-item"
+    data-title="Auto Download"
+    style="background-image:url('https://i.ibb.co.com/C3FS61jQ/b.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="Info Userr"
+    style="background-image:url('https://i.ibb.co.com/9mtP8WWQ/d.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="Menu Bot"
+    style="background-image:url('https://i.ibb.co.com/spxdy8Wb/f.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="Stiker Tools"
+    style="background-image:url('https://i.ibb.co.com/rGYhjcgt/e.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="AI asisten"
+    style="background-image:url('https://i.ibb.co.com/Hf2k2nBx/n.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="Suara Ayat (Islamic)"
+    style="background-image:url('https://i.ibb.co.com/1tFmvwjp/p.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="ChatBot"
+    style="background-image:url('https://i.ibb.co.com/SXP9Lj8d/m.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title=".mrchat dan .mrcbalas"
+    style="background-image:url('https://i.ibb.co.com/jPwPr7pp/y.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="Rename Nama Panggilan"
+    style="background-image:url('https://i.ibb.co.com/svkvJk7x/o.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="Download Lagu by Nama"
+    style="background-image:url('https://i.ibb.co.com/JR7PcdS8/pw.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="Menu Grup"
+    style="background-image:url('https://i.ibb.co.com/7JcmcQ6W/mg.webp')">
+  </div>
+  
+  <div class="gallery-item"
+    data-title="Anti Delete (Grup)"
+    style="background-image:url('https://i.ibb.co.com/gFd20YhT/at.webp')">
+  </div>
+
+   <div class="gallery-item"
+    data-title="Info Grup"
+    style="background-image:url('https://i.ibb.co.com/R431vd0w/gb.webp')">
+  </div>
+
+  <div class="gallery-item"
+    data-title="Wallpaper"
+    style="background-image:url('https://i.ibb.co.com/1tN1J7wj/ba.webp')">
+  </div>
+
+</div>
 </div>
 <button class="accordion-btn" onclick="toggleAcc('unggulan')">
   ⚡ Keunggulan Bot
@@ -1794,12 +2011,14 @@ function playClick(){
   <ul class="advantages">
     <li>✅ Safety & Perfesional</li>
     <li>⚡ Respon Cepat 24 Jam</li>
+    <li>📄 Bergaransi Tanpa Drama</li>
+    <li>💠 Bisa Coba Jadi UserVIP Trial</li>
     <li>🧩 Fitur Grup & Private</li>
-    <li>🔄 Update Berkala</li>
+    <li>🔄 Aktif Update</li>
   </ul>
 </div>
 <button class="accordion-btn" onclick="toggleAcc('jaringan')">
-  🌐 Jaringan Bot
+  🌐 Support Bot
 </button>
 
 <div class="accordion-content" id="jaringan">
@@ -1823,12 +2042,24 @@ function playClick(){
        💠Telegram Owner
     </a>
 
+<button class="network-btn tg" onclick="toggleDonateQR()">
+  ☕ Donate (QR)
+</button>
+</div>
+</div>
+<div id="donateQR" class="donate-box">
+  <img src="https://i.ibb.co.com/TBjzj1KH/pp.webp" alt="Donate QR">
+  <div class="donate-text">
+    Thanks for support MRCBOT✌️
   </div>
 </div>
-  <div class="footer">
-    © 2026 • Powered by MRC999 Project
-  </div>
-</div>
+
+    </div>
+      <div class="footer">
+        © 2026 • Powered by MRC999 Project
+      </div>
+   </div>
+
 <!-- FLOATING BUTTON -->
 <button class="assist-float" onclick="toggleAssistant()">
   <span>💬</span>
