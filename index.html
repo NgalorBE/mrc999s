@@ -237,7 +237,7 @@ body::before{
   gap: 14px;
   overflow-x: auto;
   overflow-y: visible;   /* ⬅️ penting */
-  padding: 24px 0;       /* ⬅️ ruang aman atas bawah */
+  padding: 22px 0;       /* ⬅️ ruang aman atas bawah */
   scroll-behavior: smooth;
 }
 
@@ -416,13 +416,36 @@ button.network-btn.tg{
   100%{opacity:.2}
 }
 
+button.btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:none;
+  outline:none;
+
+  box-sizing:border-box;
+  cursor:pointer;
+
+  width:100%;
+  height:56px;
+  line-height:56px;
+  text-align:center;
+
+  font-family:inherit;
+  font-size:inherit;
+  font-weight:900;
+  letter-spacing:3px;
+
+  border-radius:18px;
+  display:block;
+}
+
 /* NEON GREEN */
 .btn-masuk{
   background:linear-gradient(135deg,#00ff99,#00c96b);
-  color:#ffffff; /* FIX PUTIH */
+  color:#ffffff;
   text-shadow:0 0 6px rgba(255,255,255,.6);
   box-shadow:
-    0 0 10px rgba(0,255,153,.55),
+    0 0 14px rgba(0,255,153,.55),
     inset 0 0 8px rgba(255,255,255,.35);
   transition:.25s ease;
 }
@@ -432,6 +455,7 @@ button.network-btn.tg{
     0 0 10px rgba(0,216,138,.6),
     inset 0 0 6px rgba(255,255,255,.3);
 }
+
 
 .accordion-btn{
   width:100%;
@@ -1792,6 +1816,14 @@ Profile: <a href="https://www.tiktok.com/@${u.uniqueId}" target="_blank">tiktok.
   }
 }
 </script>
+<script>
+function masukBot(){
+  window.open(
+    "https://wa.me/6285168820980?text=.menu",
+    "_blank"
+  );
+}
+</script>
 <audio id="clickSound" preload="auto">
   <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
 </audio>
@@ -1832,13 +1864,11 @@ function playClick(){
 </div>
 
     <!-- SINGLE BUTTON -->
-    <div class="buttons">
-      <a href="https://wa.me/6285168820980?text=.menu"
-         target="_blank"
-         class="btn btn-masuk">
-        MASUK KE BOT
-      </a>
-    </div>
+<div class="buttons">
+  <button class="btn btn-masuk" onclick="masukBot()">
+    MASUK KE BOT
+  </button>
+</div>
     <div class="section">
   <h2 class="section-title hologram-text">✨ Tentang Bot</h2>
   
@@ -2029,23 +2059,20 @@ function playClick(){
 <div class="accordion-content" id="jaringan">
   <div class="network-list">
     
-    <a href="https://whatsapp.com/channel/0029Vb6zbH99Bb5xfRw3VF3N"
-       target="_blank"
-       class="network-btn wa">
-       📢 Saluran WhatsApp
-    </a>
+    <button class="network-btn wa"
+  onclick="openLink('https://whatsapp.com/channel/0029Vb6zbH99Bb5xfRw3VF3N')">
+  📢 Saluran WhatsApp
+</button>
 
-    <a href="https://chat.whatsapp.com/K9aD13OfPbtBqgbjFBjcoF?mode=gi_t"
-       target="_blank"
-       class="network-btn wa">
-       💬 Grup WhatsApp
-    </a>
+<button class="network-btn wa"
+  onclick="openLink('https://chat.whatsapp.com/K9aD13OfPbtBqgbjFBjcoF?mode=gi_t')">
+  💬 Grup WhatsApp
+</button>
 
-    <a href="https://t.me/RMUH9"
-       target="_blank"
-       class="network-btn tg">
-       💠Telegram Owner
-    </a>
+<button class="network-btn tg"
+  onclick="openLink('https://t.me/RMUH9')">
+  💠 Telegram Owner
+</button>
 
 <button class="network-btn tg" onclick="toggleDonateQR()">
   ☕ Donate (QR)
